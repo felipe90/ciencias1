@@ -1,159 +1,133 @@
 
-//huffmanObj
-var huffmanObj;
 
-function huffman (str) {
- 	this.str = str;
- 
-    var count_chars = {};
-    for (var i = 0; i < str.length; i++) 
-        if (str[i] in count_chars) 
-            count_chars[str[i]] ++;
-        else 
-            count_chars[str[i]] = 1;
- 
-    var pq = new BinaryHeap(function(x){return x[0];});
-    for (var ch in count_chars) 
-        pq.push([count_chars[ch], ch]);
- 
-    while (pq.size() > 1) {
-        var pair1 = pq.pop();
-        var pair2 = pq.pop();
-        console.log(pair1+" "+pair2);
-        pq.push([pair1[0]+pair2[0], [pair1[1], pair2[1]]]);
-    }
+var matriz1=[]; //matriz 1
+var matriz2=[]; //matriz 2
+var matrizResult=[]; //matriz Resultado
+var n1,n2,m1,m2; 
 
+//crea el codigo del la tabla
 
+function generarTabla (n,m,id) {
+    var html = "<table class='fija' border=1>";
 
-    var tree = pq.pop();
-    this.encoding = {};
-    this._generate_encoding(tree[1], "");
- 
-    this.encoded_string = ""
-    for (var i = 0; i < this.str.length; i++) {
-        this.encoded_string += this.encoding[str[i]];
-    }
-
-    //to draw the huffman tree
-    this.tree=tree;
-    
-
-}
-
-
-huffman.prototype._generate_encoding = function(ary, prefix) {
-    if (ary instanceof Array) {
-        this._generate_encoding(ary[0], prefix + "0");
-        this._generate_encoding(ary[1], prefix + "1");
-    }
-    else {
-        this.encoding[ary] = prefix;
-    }
-}
- 
-huffman.prototype.inspect_encoding = function() {
-    var encodeResult=[];
-    var i=0;
-    for (var ch in this.encoding) {
-        encodeResult[i]=ch+":"+ this.encoding[ch]+"  ";
-        i++;
-    }
-    return encodeResult;
-}
- 
-huffman.prototype.decode = function(encoded) {
-    var rev_enc = {};
-    for (var ch in this.encoding) 
-        rev_enc[this.encoding[ch]] = ch;
- 
-    var decoded = "";
-    var pos = 0;
-    while (pos < encoded.length) {
-        var key = ""
-        while (!(key in rev_enc)) {
-            key += encoded[pos];
-            pos++;
+    for (var i = 0; i < m; i++) {
+        html = html+"<tr>";
+        for (var j = 0; j < n; j++) {
+            html = html+"<td>";        
+            html = html+"<input type='text' id='M"+id+"input"+i+"_"+j+"' placeholder=("+i+","+j+") />";
+            html = html+"</td>";
         }
-        decoded += rev_enc[key];
-    }
-    return decoded;
+        html = html+"</tr>";
+    }  
+
+    html = html+"</table>";
+    return html; 
 }
 
 
-function drawArray (tree) {
-	var h=$("#canvas").css("height");
-	var w=$("#canvas").css("width");
-
-	var drawLine = function (x,y,z,w) {
-		$("#canvas").drawLine({
-		  strokeStyle: '#000',
-		  strokeWidth: 1,
-		  x1: x, y1: y,
-		  x2: z, y2: w,
-		});
-	}
-
-	var writeText= function (x1,y1,txt) {
-		$("#canvas").drawText({
-		  fillStyle: '#000',
-		  strokeWidth: 1,
-		  x: x1, y: y1,
-		  fontSize: 10,
-		  fontFamily: 'Verdana, sans-serif',
-		  text: 'adasd'
-		});
-	}
-
-
-    /*
-	var stringTree=tree[1].toString();
-
-	console.log(stringTree);
-	*/
-
-}
-
-
-
-function generateStadistics (e,t) {
-    var tBinary="";
-	var numberEn=e.length;
-    var numberTr=t.length*8;
-    var percetCode=(numberEn*100)/numberTr;
-    var percetTotal=100-percetCode;
-    
-    for (i=0; i < t.length; i++) {
-        tBinary +=t[i].charCodeAt(0).toString(2) + " ";
+function guardarDatosMatrizes () {
+    //crea y asigna la matriz para m1
+    for (var i = 0; i < m1; i++) {
+        matriz1[i]=[];
+        for (var j = 0; j < n1; j++) {
+            matriz1[i][j]=0;
+        }
     }
 
-    $("#message").append("<p>Sin Comprimir : "+numberTr+" bits "+tBinary+"</p>");
-    $("#message").append("<p>Comprimido : "+numberEn+" bits "+e+"  </p>");
-    $("#message").append("<p>Codificado : "+percetTotal+" % </p>");
-    $("#message").append("<p>Ahorro : "+percetCode+" % </p>");
+    for (var i = 0; i < m1; i++) {
+        for (var j = 0; j < n1; j++) {
+            matriz1[i][j]=$("#M1input"+i+"_"+j).val();
+        }
+    }
+
+    //crea y asigna la matriz para m2
+    for (var i = 0; i < m2; i++) {
+        matriz2[i]=[];
+    }
+    for (var i = 0; i < m2; i++) {
+        for (var j = 0; j < n2; j++) {
+            matriz2[i][j]=$("#M2input"+i+"_"+j).val();
+        }
+    }
 
 }
 
+function multiplicarMatricez () {
+
+    // init matriz resutlado M1 X N2
+
+    for (var i = 0; i < m1; i++) {
+        matrizResult[i]=[];
+         for (var j = 0; j < n2; j++) {
+            matrizResult[i][j]=0;
+        }       
+    }
+
+    for (var i = 0; i < m1; i++) { 
+        for (var j = 0; j < n2; j++) {
+            for (var k = 0; k < n1; k++) {
+                temp=matriz1[i][k]*matriz2[k][j];
+                matrizResult[i][j] = matrizResult[i][j]+temp;
+            }
+        }
+    }
+}
+
+function generarTablaResultado () {
+    var html = "<h2>Resultado</h2>";
+    html += "<table class='fija' border=1>";
+
+    for (var i = 0; i < m1; i++) {
+        html = html+"<tr>";
+        for (var j = 0; j < n2; j++) {
+            html = html+"<td>";        
+            html = html+ matrizResult[i][j];
+            html = html+"</td>";
+        }
+        html = html+"</tr>";
+    }  
+
+    html = html+"</table>";
+    return html; 
+ 
+}
 
 
 //funcion pricipal, se ejecuta luego de cargar la pagina
 $(function () {
+
+    //funcion para crear tabla GUI M1
+    $("#btnM1").on("click",function(){
+        n1=$("#M1_N").val();
+        m1=$("#M1_M").val();
+
+        htmlTable=generarTabla(n1,m1,1);
+        $("#tablaMatriz1").html(htmlTable);        
+    });
+
+    //funcion para crear tabla GUI M2
+    $("#btnM2").on("click",function(){
+        n2=$("#M2_N").val();
+        m2=$("#M2_M").val();
+    
+        htmlTable=generarTabla(n2,m2,2);
+        $("#tablaMatriz2").html(htmlTable);
+    });
+
 	//funcion para agregar nodos
-	$("#botonResultado").on("click",function(){
-		textNodo=$("#numeroTexto").val();
-		huffmanObj=new huffman(textNodo);
+	$("#btnResultado").on("click",function(){
+        guardarDatosMatrizes();
+        
+        if(n1==m2){
+            multiplicarMatricez();    
+            htmlTable=generarTablaResultado();
+        }else{
+            htmlTable="Matrices no validas"
+        }
+        
 
-		var result=huffmanObj.inspect_encoding()
-		$("#resultado").html(result);
-
-		var e = huffmanObj.encoded_string;
-		console.log(e);
-
-		var t = huffmanObj.decode(e);
-		console.log(t);
-
-		drawArray(huffmanObj.tree);
-        generateStadistics (e,t);
-
+        
+        $("#resultado").html(htmlTable);
 	});
 
 });

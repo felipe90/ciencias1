@@ -2,29 +2,33 @@
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Huffman</title>
+	<title>Multiplicacion de Matrices</title>
 	<link rel="stylesheet" type="text/css" href="normalize.css">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="jcanvas.min.js"></script>
-	<script type="text/javascript" src="binaryHeap.js"></script>	
-	<script type="text/javascript" src="underscore.js"></script>
-	<script type="text/javascript" src="functions.js"></script>
-
 </head>
 <body>
 	<div class="main">
-		<div class="formulario">
-			<h1>Huffman - Compresión y Codificación </h1>
-			<input type="text" id="numeroTexto"placeholder="Digite la cadena que desea codificar sin espacios"/>
-			<button id="botonResultado" type="submit">Codificar</button>
+		<h1>Multiplicacion de Matrices (M x N)</h1><br>
+		<div class="matriz1">
+			<h2>Matriz 1 (M x N)</h2>
+			<input type="text" id="M1_M"placeholder="Digite M"/>
+			<input type="text" id="M1_N"placeholder="Digite N"/>
+			<button id="btnM1" type="submit">Aceptar</button>
 		</div>
-	<div class="resultado" id="resultado"></div>
-	<canvas id="canvas"></canvas> 
-
-	<div class="message" id="message">
+		<div class="tablaMatriz1" id="tablaMatriz1"></div>
+		<div class="matriz2">
+			<h2>Matriz 2 (M x N)</h2>
+			<input type="text" id="M2_M"placeholder="Digite M"/>
+			<input type="text" id="M2_N"placeholder="Digite N"/>
+			<button id="btnM2" type="submit">Aceptar</button>
+		</div>
+		<div class="tablaMatriz2" id="tablaMatriz2"></div>
+		<button id="btnResultado" type="submit">Multiplicar</button>
+		<div class="resultado" id="resultado"></div>
 			
 	</div>
 	</main>
 </body>
+	<script type="text/javascript" src="functions.js"></script>
 </html>
