@@ -1,0 +1,32 @@
+.main
+{
+	padding-left: 1rem;
+}
+
+.tableInput
+{
+	width: 50px;
+}
+
+.sortTypes
+{
+	display: inline-block;
+	padding: 2rem;
+}
+
+
+.resultado
+{
+	content: "";
+	margin: .5rem;
+}
+
+canvas
+{
+	width: 500px;
+	height: 300px;
+	padding-left: 1rem;
+	border:1px solid #000000;
+	margin: 0.5em;
+	display: none;
+}
