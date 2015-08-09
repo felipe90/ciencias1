@@ -76,6 +76,20 @@ function insertSort (a) {
     return generateTable(a); 
 }
 
+function selectSort(a){
+    for(var i=0 ; i<n ; i++){
+        var menor = i;
+        for(var j=i+1 ; j<n ; j++){
+            if (a[menor] > a[j]) menor = j;
+        }
+        var temp = a[menor];
+        a[menor] = a[i];
+        a[i] = temp;
+    }
+
+    return generateTable(a);    
+}
+
 
 function quickSort (a,i,j) {
     //seleccion
@@ -148,15 +162,18 @@ $(function () {
         saveArrayData();
 
         var tempArray=JSON.parse(JSON.stringify(array));
-        //$("#quicksort").append(quickSort(tempArray));
+
         $("#bubblesort").append(bubbleSort(tempArray));
         $("#insertsort").append(insertSort(tempArray));
+        $("#selectsort").append(selectSort(tempArray));
 
+/*      
+        $("#quicksort").append(quickSort(tempArray));
         $("#shellsort").append(shellSort);
         $("#mergesort").append(mergeSort);
         $("#heapsort").append(heapSort);
         $("#radixsort").append(radixSort);
-
+*/
         console.log(array);
 	});
 
